@@ -1,0 +1,42 @@
+<h1>Qualifications</h1>
+<div class="row">
+  <div class="col-xs-12 col-lg-4">
+    <%= form_tag do %>
+    <div class="input-group">
+      <%= text_field_tag :q, params[:q],  class: "form-control", placeholder: "Search for a qualification"  %>
+      <span class="input-group-btn">
+        <%= submit_tag "Search", class: "btn btn-default" %>
+      </span>
+    </div><!-- /input-group -->
+    <% end %>
+  </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+<% @qualifications.each_slice(4) do |qualifications| %>
+<div class="row">
+  <% qualifications.each do |qualification| %>
+    <div class="col-xs-12 col-sm-6 col-lg-3">
+      <button class="btn btn-primary btn-list" type="button" data-toggle="collapse" data-target="#<%= qualification["id"] %>" aria-expanded="false" aria-controls="<%= qualification["id"] %>">
+        <%= qualification["name"] %>
+        <% unless qualification["country"].nil? %>
+          <i class="famfamfam-flag-<%= qualification["country"]["code"].downcase %>"></i>
+        <% end %>
+      </button><br><br>
+      <div class="collapse" id="<%= qualification["id"] %>">
+        <div class="well" style="background-color: #b0ddfb">
+          <h4>Subjects</h4>
+          <ul>
+          <% unless qualification["subjects"].empty? %>
+            <% qualification["subjects"].each do |subject| %>
+              <% subject %>
+              <li><%= subject["title"] %>&nbsp;<span class="glyphicon glyphicon-book" aria-hidden="true" style="color: <%= subject["colour"] %>"></span></li>
+            <% end %>
+          <% else %>
+            <li>No subjects</li>
+          <% end %>
+          <ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<% end %>
